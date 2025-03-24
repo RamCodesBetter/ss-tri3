@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A Sets Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --secondary: #7C8B9E;
+            --background: #f5f7fb;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 25px;
+            position: relative;
+        }
+
+        .sets-sidebar {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .set-card {
+            padding: 18px;
+            margin-bottom: 12px;
+            background: var(--background);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid transparent;
+        }
+
+        .set-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .set-card.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .qa-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            min-height: 400px;
+        }
+
+        .question-item {
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background: var(--card-bg);
+            transition: all 0.2s ease;
+        }
+
+        .question {
+            font-weight: 600;
+            cursor: pointer;
+            padding: 16px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--background);
+        }
+
+        .question:hover {
+            background: #eef2f8;
+        }
+
+        .answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: var(--secondary);
+            font-size: 0.95em;
+        }
+
+        .answer.show {
+            max-height: 500px;
+            padding: 20px;
+            background: rgba(255,255,255,0.8);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin: 30px 0;
+            font-size: 2.2em;
+            font-weight: 700;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-indicator {
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            margin-left: auto;
+        }
+
+        .loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .loading.spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sets-sidebar {
+                position: relative;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Knowledge Base</h1>
+    <div class="container">
+        <div class="loading spinner"></div>
+        <div class="sets-sidebar" id="sets-sidebar"></div>
+        <div class="qa-container" id="qa-container">
+            <div class="welcome-message">
+                <i class="fas fa-lightbulb icon"></i>
+                <h3>Select a set to begin</h3>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const qaSets = [
+            {
+                id: 1,
+                title: "Chapter 1",
+                icon: "fa-code",
+                questions: [
+                    { q: "Lesson 1. Write Key ideas in your own words.", a: "• Washington and its neighbors are separated by natural and political borders. <br>• The places where people live and what people do are influenced by geography. <br>• Washington's resources and land have been changed by people over time. " },
+                    { q: "Lesson 1. Complete “What Did You Learn?”", a: `1. Some neighbouring states of Washington are Oregon, Idaho, and British Columbia in Canada. Idaho and British Columbia are seperated by political boundaries, but Oregon is seperated by Washington on the south. The Rocky Mountains also act as a natural barrier for the East side of Washington. <br><br>
+                                                            2. Geography can affect humans by providing materials and things people need to survive. For example, Washington is known for being the biggest producer of apples in the world. This is because the Rocky Mountains in central Washington affect the soil on the east coast, providing a much better place for planting apples and other crops. Washington is also known for its fish, as you can catch tons of fish on the West Coast. Geography can also influence trade. The West Coast of Washington is a trade house as many ships cross the Pacific to reach Washington. <br><br>
+                                                            3. People have changed Washington's resources over time. Some resources that have been changed is the amount of wildlife in Washington. Trees were cut down, wild animals were shot, and the amount of fish in Washington reduce, specifically salmon. Dams were also built on rivers to produce hydro-electricity.`},
+                    { q: "Lesson 2. Write Key ideas in your own words.", a: "• The Pacfic Northwest and the Pacific Rim includes Washington State. <br>• Washington's five land regions each have different land features that make each land region unique of eachother. <br>• The Puget Sound Lowlands contains most of Washington's population." },
+                    { q: "Lesson 2. Complete “What Did You Learn?”", a: "" }
+                ],
+                progress: 100
+            },
+            {
+                id: 2,
+                title: "DevOps",
+                icon: "fa-server",
+                questions: [
+                    { q: "What is Docker?", a: "Containerization platform" },
+                    { q: "CI/CD meaning?", a: "Continuous Integration/Continuous Deployment" }
+                ],
+                progress: 100
+            }
+        ];
+
+        async function loadQASet(setId) {
+            showLoading();
+            clearQAContainer();
+            
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            const set = qaSets.find(s => s.id === setId);
+            renderQuestions(set);
+            updateActiveSet(setId);
+            hideLoading();
+        }
+
+        function renderQuestions(set) {
+            const container = document.getElementById('qa-container');
+            container.innerHTML = set.questions.map((qa, index) => `
+                <div class="question-item fade-in">
+                    <div class="question" onclick="toggleAnswer(${index})">
+                        <span>${qa.q}</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="answer" id="answer-${index}">
+                        ${qa.a}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleAnswer(index) {
+            const answer = document.getElementById(`answer-${index}`);
+            const chevron = answer.previousElementSibling.querySelector('i');
+            answer.classList.toggle('show');
+            chevron.style.transform = answer.classList.contains('show') 
+                ? 'rotate(180deg)' 
+                : 'rotate(0deg)';
+        }
+
+        function showLoading() {
+            document.querySelector('.loading').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.querySelector('.loading').style.display = 'none';
+        }
+
+        function clearQAContainer() {
+            document.getElementById('qa-container').innerHTML = '';
+        }
+
+        function updateActiveSet(setId) {
+            document.querySelectorAll('.set-card').forEach(card => {
+                card.classList.toggle('active', card.dataset.id == setId);
+            });
+        }
+
+        function renderSetCards() {
+            const sidebar = document.getElementById('sets-sidebar');
+            sidebar.innerHTML = qaSets.map(set => `
+                <div class="set-card" data-id="${set.id}" onclick="loadQASet(${set.id})">
+                    <i class="fas ${set.icon} icon"></i>
+                    ${set.title}
+                    <div class="progress-indicator" style="width: ${set.progress}%"></div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize
+        renderSetCards();
+    </script>
+</body>
+</html>
