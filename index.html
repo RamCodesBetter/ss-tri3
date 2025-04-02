@@ -112,6 +112,7 @@
             max-height: 500px;
             padding: 20px;
             background: rgba(255,255,255,0.8);
+            overflow-y: auto; /* Add this line */
         }
 
         h1 {
@@ -179,6 +180,25 @@
                 top: 0;
             }
         }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        table {
+            display: table;
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            table-layout: fixed; /* Add this for better table sizing */
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid black;
+            word-wrap: break-word; /* Add for text wrapping */
+        }
     </style>
 </head>
 <body>
@@ -232,11 +252,41 @@
             },
             {
                 id: 2,
-                title: "DevOps",
-                icon: "fa-server",
+                title: "Chapter 2",
+                icon: "fa-code",
                 questions: [
-                    { q: "What is Docker?", a: "Containerization platform" },
-                    { q: "CI/CD meaning?", a: "Continuous Integration/Continuous Deployment" }
+                    { q: "Lesson 1. Write Key ideas in your own words.", a: "• The unique, rich culture along the rivers and coastlines of Washington were developed by the Coastal Indians. <br>•  The Plateau's lives were shaped by the land and climate of the Columbian Plateau. <br>• Indian Groups connected sometimes by war and mainly trade." },
+                    { q: "Lesson 1. Provide 2 specific examples of how information you learned in chapter 1 helped you understand information in chapter 2.", a: `1. The part where I learned about the different regions of Washington helped me understand why the Plateau and the Coastal Indians lived in different ways. 
+                    <br>2. The part where I learned about the resource availability of Washington helped me understand where people lived and what they did with those resources. For example, some tribes in an area used cedar trees to build boats to hunt whales and other fish.`},
+                    { q: "Lesson 2. Write Key ideas in your own words.", a: "• The first to explore the Northwest Coast were Spanish and English sailors.<br>• The Columbia River was named by an American explorer and the land around the river was claimed by the same explorer. <br>• The maping of the terrain of the Northwest was helped by Lewis and Clark."},
+                    { q: "Lesson 2. Find information from an outside source related to information in lesson 2 (explain how they relate).", a: "Some outside information I found from outside sources is that Lewis and Clark both joined the militia, and Lewis was commanded by Clark. This relates to the lesson because it shows how Lewis and Clark's experience in the military helped them with their journey."},
+                    { q: "Lesson 3. Write Key ideas in your own words.", a: "• Along the Pacific Coast in the early 1800s, fur trading was the chief economic activity. <br>• Missionaries converting Indians to Christianity had limited success. <br>• The Indian Population declined due to diseases brought by Missionaries"},
+                    { q: "Lesson 3. Draw a picture or make a word web of what you think was the big idea", a: "<img src='IMG_2363.png' style='max-width: 100%; max-height: 100%'>"},
+                    { q: "End-of-Chapter Activities: Answer “Chapter Review Questions” 1-8 (pg. 57)", a: `1. Living near the Pacific Ocean influenced the lifestyle of the Costal Indians in many ways. The marine economy of different types of fish helped with trade and food. The Pacific Ocean also helped for travel (in one way connected to trade) and creating moist air on the coastlines and West Side of Washington. This moise air advantage helped with gathering animals and plants, as well as red cedar and other trees which helped with building shelter. Rivers flowing to the Pacfic Ocean helped with farming to create rich soil. <br><br>
+                        2. The Plateau Indians were more likely than the Costal Indians to move around because of the different seasons. Since the Cascade Mountains blocked most moisture from the Pacific Ocean, the Plateau Indian had to deal with hot and dry summers and cold and dry winters. This cause the Plateau Indians to move around and adapt with the weather. Another reasons why Plateau Indians moved more than Costal Indians is because Horses were also introduced to the Plateau Indians by the Cayuse, which helped with traveling to hunt and gather resources. <br><br>
+                        3. The thing that was unique on how women were treated in the Plateau tribes is that men and women had equality. Women had rights to reject and propose a marriage. In some households, women had a higher priority than men. An example of this is women got to control food usage, and the men had to ask for food. <br><br>
+                        4. <table>
+                            <tr>
+                                <th>Name</th>
+                                <th>Accomplishment</th>
+                                <th>Represented Country</th>
+                            </tr>
+                            <tr>
+                                <td>Meriwether Lewis</td>
+                                <td>Lewis and Clark both mapped out the Northwest part of the U.S., collected plant samples and discovered new plants and animals, and they also built relationships with Native American tribes along the way and took notes on their tribes.</td>
+                                <td>United States of America</td>
+                            </tr>
+                            <tr>
+                                <td>William Clark</td>
+                                <td>The question said: "Create a chart identifying the explorers who first ventured into the Pacific Northwest. Be sure that your chart includes the country each explorer represented and what <b><u><i>they</i></u></b> accomplished." It said they which meant the accomplishments Lewis and Clark both did. So I reccommend you to look up at what I wrote for Lewis</td>
+                                <td>United States of America</td>
+                            </tr>
+                            </table><br>
+                        
+                        5. President Thomas Jefferson asked Lewis and Clark to go and explore the Louisiana Purchase. The Indian girl that helped Lewis and Clark with their expedition was Sacagawea. <br><br>
+                        6. One factor that the fur trade stopped is because of sea otter and beaver population. The population was decreasing rapidly and those animals were on the line of extinction. The amount of sea otters and beavers was too small to do more round of voyaging on the seas. Another factor that put an end to the fur trade was fashion trends. Top hats were the favorite in past-time United States and Europe, but silk hats became the new trend. <br><br>
+                        7. Some success that the missionaires had when converting Indians in the Oregon County were that they were able to convert a few Indian here and there and they where also able to set up churchs and mission schools to teach the Indians Christianity. Multiple other missionaires built more missions to teach the Indians how to do basic agricultural practices and how to read the Bible. But the missionaires also failed to convert the Indians to Christianity because of the Indians' strong connection to their culture and traditions. <br><br>
+                        8. The disease affected Native Americans Indians by wiping and rapidly decreasing the population of Indians. The wagon train mission brought sick travelers and the Whitman's mission spread the diseases further outward, creating an epidemic. This is worse than normall because the Indians had no immunity because tehy have never been in contact with these disease before.`},
                 ],
                 progress: 100
             }
